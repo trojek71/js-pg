@@ -7,7 +7,7 @@ const client = new pg.Client(cs);
 
 client.connect();
 
-client.query('SELECT * FROM cars').then(res => {
+client.query('SELECT * FROM users').then(res => {
 
     const data = res.rows;
 
