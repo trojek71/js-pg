@@ -1,0 +1,6 @@
+const config = {
+    user: 'sa',
+        password: '!tomek23',
+        server: '192.168.66.189', 
+        database: 'SynapticNew' 
+}

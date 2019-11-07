@@ -1,14 +1,29 @@
-const pg = require('pg');
-const R = require('ramda');
+var express = require('express');
+    var router = express.Router();
 
-const cs = 'postgres://tomek:tomek123@192.168.66.189:5432/js01';
+    /* GET home page. */
+    router.get('/', function(req, res, next) {
+      GetData(function (recordSet) {
+          res.render('index', {product: recordSet})
+          console.log(recordSet);
+      });
+    });
 
-const client = new pg.Client(cs);
-client.connect();
+    function GetData(callBack){
+      var sql = require('mssql');
+      var Config = {
+        user: 'sa',
+        password: '!tomek23',
+        server: '192.168.66.189', 
+        database: 'SynapticNew'
+      };
+      var conn = new sql.ConnectionPool(Config,function (err) {
+         //If any error
+         var request = new sql.Request(conn);
+         request.query('SELECT * FROM dbo.u=UserInfo', function(err, recordSet){
+           callBack(recordSet);
+         });
+      });
+    }
 
-client.query('SELECT 1 + 4').then(res => {
-
-    const result = R.head(R.values(R.head(res.rows)));
-
-    console.log(result);
-}).finally(() => client.end());
+    module.exports = router;
